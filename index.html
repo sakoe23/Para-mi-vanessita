@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Para Ti, con amor</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      user-select: none;
+    }
+    #mensaje {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255 255 255 / 0.1);
+      padding: 30px 40px;
+      border-radius: 20px;
+      font-size: 2.5rem;
+      text-align: center;
+      box-shadow: 0 0 15px #ff4d6d;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 2s ease;
+      z-index: 10;
+    }
+    #mensaje.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .corazon {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff4d6d;
+      transform: rotate(45deg);
+      animation: subir 4s linear forwards;
+      opacity: 0.8;
+      filter: drop-shadow(0 0 3px #ff4d6d);
+      border-radius: 5px 5px 0 0;
+    }
+    .corazon::before,
+    .corazon::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff4d6d;
+      border-radius: 50%;
+    }
+    .corazon::before {
+      top: -10px;
+      left: 0;
+    }
+    .corazon::after {
+      left: 10px;
+      top: 0;
+    }
+    @keyframes subir {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-150vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+    #instruccion {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.2rem;
+      color: #ccc;
+      user-select: none;
+      pointer-events: none;
+      text-shadow: 0 0 5px #ff4d6d;
+    }
+  </style>
+</head>
+<body onclick="iniciar()">
+  <div id="instruccion">Haz clic en cualquier parte para escuchar una sorpresa</div>
+  <div id="mensaje">Te amo, gracias por estar a mi lado</div>
+  <audio id="audio" src="https://www.bensound.com/bensound-music/bensound-love.mp3"></audio>
+  <script>
+    let iniciado = false;
+    function crearCorazon() {
+      const corazon = document.createElement('div');
+      corazon.classList.add('corazon');
+      corazon.style.left = Math.random() * 100 + 'vw';
+      corazon.style.bottom = '-20px';
+      corazon.style.width = corazon.style.height = (10 + Math.random() * 20) + 'px';
+      corazon.style.animationDuration = (3 + Math.random() * 3) + 's';
+      document.body.appendChild(corazon);
+      setTimeout(() => { corazon.remove(); }, 6000);
+    }
+    function iniciar() {
+      if (iniciado) return;
+      iniciado = true;
+      document.getElementById('mensaje').classList.add('show');
+      document.getElementById('instruccion').style.display = 'none';
+      document.getElementById('audio').play();
+      setInterval(crearCorazon, 300);
+    }
+  </script>
+</body>
+</html>
